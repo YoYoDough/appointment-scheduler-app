@@ -25,6 +25,8 @@ const Nav = () => {
     function handlePressedMenu(){
         setIsPressedMenu(prevState => !prevState);
     }
+
+    console.log(session);
  return (
         <nav className="navbar">
           {/* Hamburger Menu Button */}
@@ -34,16 +36,16 @@ const Nav = () => {
     
           {/* Profile Image or Placeholder */}
           {session?.user ? (
-            <Link href="/profile">
-                <Image
+            <button className = "profile">
+                <img
                 src={session?.user.image}
                 width={37}
                 height={37}
-                className="rounded-full"
+                className="profileImg"
                 alt="profile"
                 onClick={handlePressedProfile}
                 />
-            </Link>
+            </button>
           ) : (
             <>
               {providers &&

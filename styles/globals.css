@@ -61,11 +61,11 @@ body{
   }
   
   /* Profile image styling */
-  .profile img {
+  .profileImg {
     border-radius: 50%;
     cursor: pointer;
-    width: 37px;
-    height: 37px;
+    width: 100%;
+    height: 100%;
   }
   
 

@@ -7,14 +7,12 @@ import { useRouter } from 'next/navigation';
 const page = () => {
     const { data: session } = useSession();
     const router = useRouter();
-    const [userDetails, setUserDetails] = useState(null);
     useEffect(() => {
         const fetchUserDetails = async () => {
           if (session) {
             const response = await fetch(`http://localhost:8080/api/users?email=${session.user.email}`);
             if (response.ok) {
               const data = await response.json();
-              setUserDetails(data);
             } else {
               console.error('Failed to fetch user details');
             }

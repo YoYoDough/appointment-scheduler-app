@@ -27,6 +27,7 @@ const Nav = () => {
     }
 
     console.log(session);
+    console.log(isPressedProfile)
  return (
         <nav className="navbar">
           {/* Hamburger Menu Button */}
@@ -69,7 +70,7 @@ const Nav = () => {
               <ul>
                 {session?.user ? (
                   <>
-                    <Link href="/profile">
+                    <Link href="/profile" className = "yourProfile">
                       <li>Your Profile</li>
                     </Link>
                     <li>

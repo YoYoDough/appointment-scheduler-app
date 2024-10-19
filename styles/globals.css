@@ -25,40 +25,64 @@ body{
     height: 90px;
 }
 
+/* Container for dropdown */
 .dropdownMenuSignedIn {
-    position: absolute; /* Positioning relative to the parent container */
-    top: 50px; /* Adjust as needed to sit below the profile button */
-    right: 10px; /* Position to the right or left as per your design */
-    z-index: 1000; /* High enough to overlay other content */
-    
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    
-    display: none; /* Hidden by default */
-  }
+  display: flex;
+  position: absolute;
+  top: 90px; /* Adjust based on your navbar height */
+  right: 0; /* Align it to the right edge of the navbar/profile button */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 200px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Ensure it's above other elements */
+  justify-content: center;
+}
 
-  .dropdownMenuSignedIn ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .dropdownMenuSignedIn li {
-    padding: 10px;
-    cursor: pointer;
-  }
-  
-  .dropdownMenuSignedIn li:hover {
-    background-color: #f1f1f1;
-  }
-  
-  /* Show the menu when the state is triggered (via JS) */
-  .navbar .showDropdown .dropdownMenuSignedIn {
-    display: block; /* Make visible when the menu is active */
-  }
+/* List styling inside dropdown */
+.dropdownMenuSignedIn ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  justify-content:space-evenly;
+  align-items: center;
+}
+
+.dropdownMenuSignedIn ul li {
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #333;
+
+}
+
+.yourProfile{
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #333;
+
+}
+
+/* Styling for the links and buttons */
+.dropdownMenuSignedIn ul li a, 
+.dropdownMenuSignedIn ul li button {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: inherit;
+  text-decoration: none;
+  padding: 10px 20px;
+  text-align: left;
+  cursor: pointer;
+  flex-basis: 100%;
+}
+
+.dropdownMenuSignedIn ul li:hover {
+  background-color: #f2f2f2;
+}
   
   /* Profile image styling */
   .profileImg {
@@ -72,7 +96,6 @@ body{
 .navbar button{
     width: 80px;
     height: 80px;
-    margin: 0px 20px;
     padding: 10px;
 }
 

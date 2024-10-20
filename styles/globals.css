@@ -193,10 +193,18 @@ button>img{
   align-items: center;
   width: 500px;
 }
-.addRemindersButton{
-  width: 100px;
-  height: 100px;
+
+.addReminders{
+  justify-self: left;
 }
+
+.addRemindersButton{
+  width: 60px;
+  height: 60px;
+  align-self: flex-start;
+}
+
+
 
 .head_text {
   @apply mt-5 text-5xl font-extrabold leading-[1.15] text-black sm:text-6xl;

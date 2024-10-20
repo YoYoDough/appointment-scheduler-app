@@ -26,11 +26,13 @@ const page = () => {
       }
     
       return (
-        <div>
-          <h1>Your Profile</h1>
-          <img src = {session.user.image}></img>
-          <p>Name: {session.user.name}</p>
-          <p>Email: {session.user.email}</p>
+        <div className = "profile">
+          <h1 className = "text-4xl font-bold mb-10">Your Profile</h1>
+          <div className = "profileDetails">
+            <img src = {session.user.image} className = "profileDetailsImg"></img>
+            <p className = "text-xl">Name: {session.user.name}</p>
+            <p className = "text-xl">Email: {session.user.email}</p>
+          </div>
         </div>
       );
     };

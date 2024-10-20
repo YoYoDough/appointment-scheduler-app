@@ -1,5 +1,5 @@
 "use client"
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import Link from 'next/link'
 import { useSession, signIn, signOut, getProviders } from "next-auth/react"
 
@@ -8,6 +8,8 @@ const Nav = () => {
     const [isPressedProfile, setIsPressedProfile] = useState(false);
     const [isPressedMenu, setIsPressedMenu] = useState(false);
     const [providers, setProviders] = useState(null)
+    const profileRef = useRef(null); // Ref for profile dropdown
+    const menuRef = useRef(null);
 
     // Fetch the authentication providers (e.g., Google, GitHub, etc.)
   useEffect(() => {
@@ -22,16 +24,38 @@ const Nav = () => {
         setIsPressedProfile(prevState => !prevState);
     } 
 
-    function handlePressedMenu(){
+    function handlePressedMenu(e){
         setIsPressedMenu(prevState => !prevState);
     }
+
+    // This function checks if a click is outside the dropdown
+    const handleClickOutside = (event) => {
+      if (profileRef.current &&!profileRef.current.contains(event.target))
+      {
+        setIsPressedProfile(false); // Close the profile dropdown if clicked outside
+      }
+  
+      if (menuRef.current && !menuRef.current.contains(event.target)) 
+      {
+        setIsPressedMenu(false); // Close the menu dropdown if clicked outside
+      }
+    };
+
+    useEffect(() => {
+      // Add event listener to detect outside clicks
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        // Clean up the event listener when the component unmounts
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
 
     console.log(session);
     console.log(isPressedProfile)
  return (
         <nav className="navbar">
           {/* Hamburger Menu Button */}
-          <button className="dropdownMenuButton" onClick={handlePressedMenu}>
+          <button className="dropdownMenuButton" onClick={handlePressedMenu} ref = {menuRef}>
             <img src="/hamburgerMenu.png" alt="Menu" />
           </button>
     
@@ -45,6 +69,7 @@ const Nav = () => {
                 className="profileImg"
                 alt="profile"
                 onClick={handlePressedProfile}
+                ref = {profileRef}
                 />
             </button>
           ) : (
@@ -66,16 +91,16 @@ const Nav = () => {
     
           {/* Dropdown Menu */}
           {isPressedProfile && (
-            <div className="dropdownMenuSignedIn">
+            <div className="dropdownMenuSignedIn" ref = {profileRef}>
               <ul>
                 {session?.user ? (
                   <>
                     <Link href="/profile" className = "yourProfile">
                       <li>Your Profile</li>
                     </Link>
-                    <li>
+                    <Link href = "/">
                       <button onClick={signOut}>Log out</button>
-                    </li>
+                    </Link>
                   </>
                 ) : (
                   <>
@@ -88,6 +113,39 @@ const Nav = () => {
                           </button>
                         </li>
                       ))}
+                  </>
+                )}
+              </ul>
+            </div>
+          )}
+
+          {isPressedMenu && (
+            <div className = "dropdownMenu" ref = {menuRef}>
+              <ul>
+                {session?.user ? (
+                  <>
+                    <Link href = "/">
+                      <li>Home</li>
+                    </Link>
+                    <Link href = "/reminders">
+                      <li>Your reminders</li>
+                    </Link>
+                    <Link href = "/editReminders">
+                      <li>Edit your reminders</li>
+                    </Link>
+                  </>
+                ) : 
+                (
+                  <>
+                    {/* If no user is signed in, show available providers */}
+                    {providers &&
+                        Object.values(providers).map((provider) => (
+                          <li key={provider.name}>
+                            <button onClick={() => signIn(provider.id)}>
+                              Sign in with {provider.name}
+                            </button>
+                          </li>
+                        ))}
                   </>
                 )}
               </ul>

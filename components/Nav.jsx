@@ -67,7 +67,7 @@ const Nav = () => {
                 width={37}
                 height={37}
                 className="profileImg"
-                alt="profile"
+                alt='profile'
                 onClick={handlePressedProfile}
                 ref = {profileRef}
                 />

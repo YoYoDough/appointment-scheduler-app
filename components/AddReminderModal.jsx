@@ -14,11 +14,16 @@ const AddReminderModal = ({ isOpen, handleClose }) => {
     
 
     const [formData, setFormData] = useState({
-        userEmail: session?.user.email,
         reminderName: "",
         date: new Date(),
         time: ""
     })
+
+    if (formData.userEmail === "")
+    {
+      alert("Please sign in to make appointments and use this app.");
+      return;
+    }
 
     console.log(formData);
 
@@ -57,7 +62,6 @@ const AddReminderModal = ({ isOpen, handleClose }) => {
 
           // Reset form data after successful submission
             setFormData({
-                userEmail: session?.user.email || "",
                 reminderName: "",
                 date: new Date(),
                 time: "",
@@ -81,7 +85,6 @@ const AddReminderModal = ({ isOpen, handleClose }) => {
     
         // Reset the form and close the modal
         setFormData({
-          userEmail: session?.user.email,
           reminderName: "",
           date: new Date(),
           time: "",

@@ -11,13 +11,12 @@ const AddReminderModal = ({ isOpen, handleClose }) => {
     const [submitted, setSubmitted] = useState(false); // Track submission state
     const [response, setResponse] = useState(null); // Store the response from backend
 
-    
-
     const [formData, setFormData] = useState({
         reminderName: "",
         date: new Date(),
         time: ""
     })
+    const email = session?.user.email;
 
     if (formData.userEmail === "")
     {
@@ -43,7 +42,22 @@ const AddReminderModal = ({ isOpen, handleClose }) => {
         });
     };
 
+    function convertTo12HourTime(time) {
+      // Split time into hours and minutes
+      const [hours, minutes] = time.split(':');
     
+      // Convert string to number for comparison
+      let hour = parseInt(hours);
+    
+      // Determine AM or PM
+      const period = hour >= 12 ? 'PM' : 'AM';
+    
+      // Convert to 12-hour format
+      hour = hour % 12 || 12; // If hour is 0 or 12, convert to 12 (midnight or noon)
+    
+      // Return formatted time
+      return `${hour}:${minutes} ${period}`;
+    }
 
     console.log(submitted)
 
@@ -52,24 +66,34 @@ const AddReminderModal = ({ isOpen, handleClose }) => {
       // Function to send formData to backend
       const sendFormData = async () => {
         try {
-          const res = await fetch("http://localhost:8080/api/reminders", {
+          const formattedDate = formData.date instanceof Date
+          ? formData.date.toISOString().split('T')[0]
+          : formData.date;
+          const formattedTime = convertTo12HourTime(formData.time)
+          const res = await fetch(`http://localhost:8080/api/reminders?userEmail=${email}`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify({
+              reminderName: formData.reminderName,
+              reminderDate: formattedDate,  // Use correct backend naming
+              reminderTime: formattedTime,   // Use correct backend naming
+            }
+            ),
           });
 
           // Reset form data after successful submission
-            setFormData({
-                reminderName: "",
-                date: new Date(),
-                time: "",
-            });
+            
         } catch (error) {
           console.error("Error submitting form data", error);
         } finally {
           // Reset submission state
+          setFormData({
+            reminderName: "",
+            date: new Date(),
+            time: "",
+          });
           setSubmitted(false);
           handleClose()
         }
@@ -83,13 +107,6 @@ const AddReminderModal = ({ isOpen, handleClose }) => {
         // Send formData to parent component to handle backend submission
         setSubmitted(true);
     
-        // Reset the form and close the modal
-        setFormData({
-          reminderName: "",
-          date: new Date(),
-          time: "",
-        });
-        
     };
   
     return (
@@ -127,7 +144,6 @@ const AddReminderModal = ({ isOpen, handleClose }) => {
                     id="time"
                     value={formData.time}
                     onChange={handleInputChange}
-                    
                 />
 
                 <div className="flex justify-end">

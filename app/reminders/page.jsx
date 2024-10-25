@@ -1,10 +1,12 @@
 "use client"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSession } from 'next-auth/react'
 
 import Link from 'next/link'
 import AddReminderModal from '@components/AddReminderModal'
 
 const page = () => {
+    const {data: session} = useSession();
     
     const [reminders, setReminders] = useState([]);
     const [addReminderModal, setAddReminderModal] = useState(false);
@@ -12,6 +14,16 @@ const page = () => {
     function handleReminderModal(){
         setAddReminderModal(prevMode => !prevMode)
     }
+
+    useEffect(() => {
+      const fetchReminders = async() => {
+        const res = await fetch(`http://localhost:8080/api/reminders/id?email=${session?.user.email}`)
+        const data = await res.json();
+        setReminders(prevReminders => prevReminders = data);
+      }
+      fetchReminders()
+    }, [])
+    console.log(reminders);
 
   return (
     <div className="remindersPage w-full p-4">
@@ -30,6 +42,7 @@ const page = () => {
     
             {/* Your Reminders Section */}
             <h1 className="text-xl font-bold mb-4">Your Reminders</h1>
+            
             <div className="remindersList">
                 {reminders.length === 0 ? (
                     <p>No reminders added yet.</p>
@@ -37,7 +50,7 @@ const page = () => {
                     <ul>
                     {reminders.map((reminder, index) => (
                         <li key={index} className="reminderItem p-2 mb-2 border-b">
-                        {reminder.text}
+                        {`${reminder.reminderName} ${reminder.reminderDate} ${reminder.reminderTime}`}
                         </li>
                     ))}
                     </ul>

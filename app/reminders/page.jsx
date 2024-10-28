@@ -17,12 +17,16 @@ const page = () => {
 
     useEffect(() => {
       const fetchReminders = async() => {
+        if (!session)
+        {
+          return;
+        }
         const res = await fetch(`http://localhost:8080/api/reminders/id?email=${session?.user.email}`)
         const data = await res.json();
         setReminders(prevReminders => prevReminders = data);
       }
       fetchReminders()
-    }, [])
+    }, [session])
     console.log(reminders);
 
   return (

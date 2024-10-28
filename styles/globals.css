@@ -204,7 +204,42 @@ button>img{
   align-self: flex-start;
 }
 
+.editRemindersContainer{
+  display:flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
 
+.editReminderBox{
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 400px;
+  height: 100px;
+  margin: 20px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.checkbox{
+  position: absolute;
+  right: 420px;
+}
+
+.remindersList{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.deleteButtonImage{
+  border-radius: 0%;
+  cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
 
 .head_text {
   @apply mt-5 text-5xl font-extrabold leading-[1.15] text-black sm:text-6xl;

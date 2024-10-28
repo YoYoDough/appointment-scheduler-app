@@ -100,7 +100,7 @@ const AddReminderModal = ({ isOpen, handleClose }) => {
       };
       sendFormData();
     }
-  }, [submitted, formData]);
+  }, [submitted, formData, session]);
 
       const onFormSubmit = (e) => {
         e.preventDefault();

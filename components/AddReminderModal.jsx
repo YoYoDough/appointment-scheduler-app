@@ -43,6 +43,9 @@ const AddReminderModal = ({ isOpen, handleClose }) => {
     };
 
     function convertTo12HourTime(time) {
+      if (time === ""){
+        return;
+      }
       // Split time into hours and minutes
       const [hours, minutes] = time.split(':');
     

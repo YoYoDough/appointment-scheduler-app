@@ -54,7 +54,8 @@ const page = () => {
                     <ul>
                     {reminders.map((reminder, index) => (
                         <li key={index} className="reminderItem p-2 mb-2 border-b">
-                        {`${reminder.reminderName} ${reminder.reminderDate} ${reminder.reminderTime}`}
+                          <li>{reminder.reminderName}</li>
+                          <li>{reminder.reminderDate} {reminder.reminderTime !== null ? `, ${reminder.reminderTime}` : ""}</li>
                         </li>
                     ))}
                     </ul>

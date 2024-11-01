@@ -76,7 +76,7 @@ const page = () => {
                 <div className = "editReminderBox m-20">
                     <input type = "checkbox" className = "checkbox" onChange={() => handleCheckboxChange(reminder.id)} checked={remindersToDelete.includes(reminder.id)}/>
                     <ul className = "remindersList">
-                        <li>{reminder.reminderName}</li>
+                        <li><b>{reminder.reminderName}</b></li>
                         <li>{reminder.reminderDate} {reminder.reminderTime !== null ? `, ${reminder.reminderTime}` : ""}</li>
                         <button onClick = {() => handleEdit(reminder)} className = "justify-self-end self-end">Edit</button>
                     </ul>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
-const EditReminderModal = ({ key, handleClose, isOpen, reminder}) => {
+const EditReminderModal = ({ handleClose, isOpen, reminder}) => {
     if (!isOpen) return null;
 
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -64,6 +64,7 @@ const EditReminderModal = ({ key, handleClose, isOpen, reminder}) => {
                     reminderDate: formattedDate,
                     reminderTime: formattedTime
                 };
+                console.log(updatedReminder);
                 const res = await fetch(`http://localhost:8080/api/reminders?id=${reminder.id}`, {
                     method: "PUT",
                     headers: {
@@ -71,6 +72,7 @@ const EditReminderModal = ({ key, handleClose, isOpen, reminder}) => {
                     },
                     body: JSON.stringify(updatedReminder)
                 })
+                console.log(res);
                 
                 handleClose(); // Close modal
             };

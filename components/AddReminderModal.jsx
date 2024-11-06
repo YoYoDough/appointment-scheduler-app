@@ -14,7 +14,8 @@ const AddReminderModal = ({ isOpen, handleClose }) => {
     const [formData, setFormData] = useState({
         reminderName: "",
         date: new Date(),
-        time: ""
+        time: "",
+        userTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
     })
     const email = session?.user.email;
 
@@ -82,6 +83,7 @@ const AddReminderModal = ({ isOpen, handleClose }) => {
               reminderName: formData.reminderName,
               reminderDate: formattedDate,  // Use correct backend naming
               reminderTime: formattedTime,   // Use correct backend naming
+              userTimeZone: formData.userTimeZone
             }
             ),
           });
@@ -96,6 +98,7 @@ const AddReminderModal = ({ isOpen, handleClose }) => {
             reminderName: "",
             date: new Date(),
             time: "",
+            userTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
           });
           setSubmitted(false);
           handleClose()
@@ -134,7 +137,7 @@ const AddReminderModal = ({ isOpen, handleClose }) => {
 
                 {/* Calendar component */}
                 <div className="calendarContainer mb-10">
-                    <Calendar onChange={handleDateChange} value={selectedDate} />
+                    <Calendar onChange={handleDateChange} value={selectedDate} minDate={new Date()}/>
                 </div>
 
                 <div className="selectedDateDisplay mb-10">

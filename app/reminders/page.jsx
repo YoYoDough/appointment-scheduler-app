@@ -28,7 +28,7 @@ const page = () => {
       fetchReminders()
     }, [session])
     console.log(reminders);
-
+    console.log(new Date(Date.now() + new Date().getTimezoneOffset() * 60000).toISOString().split('T')[0])
   return (
     <div className="remindersPage w-full p-4">
         <div className="remindersBox bg-white shadow-md rounded-lg p-6">
@@ -45,20 +45,25 @@ const page = () => {
             <AddReminderModal isOpen={addReminderModal} handleClose={handleReminderModal} />
     
             {/* Your Reminders Section */}
-            <h1 className="text-xl font-bold mb-4">Your Reminders</h1>
+            <span><h1 className="text-xl font-bold mb-4">Your Reminders </h1><p className = "text-s mb-5">(YYYY-MM-DD)</p></span>
             
             <div className="remindersList">
                 {reminders.length === 0 ? (
                     <p>No reminders added yet.</p>
                 ) : (
-                    <ul>
-                    {reminders.map((reminder, index) => (
-                        <li key={index} className="reminderItem p-2 mb-2 border-b">
-                          <li><b>{reminder.reminderName}</b></li>
-                          <li>{reminder.reminderDate} {reminder.reminderTime !== null ? `, ${reminder.reminderTime}` : ""}</li>
-                        </li>
-                    ))}
-                    </ul>
+                  <ul>
+                  {reminders.map((reminder, index) => (
+                      <li key={index} className="reminderItem p-2 mb-2 border-b">
+                      <li>
+                          <span className="text-red-600">{reminder.reminderTimeUtc.split("T")[0] === new Date(Date.now() + new Date().getTimezoneOffset() * 60000).toISOString().split('T')[0] ? "DUE TODAY!!! " : ""}</span>
+                          <b>{reminder.reminderName}</b>
+                      </li>
+                      <li>
+                          {reminder.reminderDate} {reminder.reminderTime ? `, ${reminder.reminderTime}` : ""}
+                      </li>
+                  </li>
+                  ))}
+                  </ul>
                 )}
             </div>
         </div>

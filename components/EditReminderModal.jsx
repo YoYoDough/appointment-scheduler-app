@@ -10,13 +10,15 @@ const EditReminderModal = ({ handleClose, isOpen, reminder}) => {
     const [formData, setFormData] = useState({
         reminderName: "",
         date: new Date(),
-        time: ""
+        time: "",
+        userTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
     });
 
     // Initialize form data with reminder details
     useEffect(() => {
         if (reminder) {
             setFormData({
+                ...reminder,
                 reminderName: reminder.reminderName || "",
                 date: new Date(reminder.reminderDate) || new Date(),
                 time: reminder.reminderTime || ""
@@ -62,7 +64,8 @@ const EditReminderModal = ({ handleClose, isOpen, reminder}) => {
                     ...reminder,
                     reminderName: formData.reminderName,
                     reminderDate: formattedDate,
-                    reminderTime: formattedTime
+                    reminderTime: formattedTime,   // Use correct backend naming
+                    userTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
                 };
                 console.log(updatedReminder);
                 const res = await fetch(`http://localhost:8080/api/reminders?id=${reminder.id}`, {
@@ -106,7 +109,7 @@ const EditReminderModal = ({ handleClose, isOpen, reminder}) => {
                         />
 
                         <div className="calendarContainer mb-10">
-                            <Calendar onChange={handleDateChange} value={selectedDate} />
+                            <Calendar onChange={handleDateChange} value={selectedDate} minDate={new Date()}/>
                         </div>
 
                         <div className="selectedDateDisplay mb-10">
